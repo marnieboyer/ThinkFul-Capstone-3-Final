@@ -14,3 +14,7 @@ MODEL_COMPARISONS.py - other classifier models I tried
 PLOT_IMAGES.py - plots images on top of each other for illustration
 
 RECOMMENDER.py - houses the recommender function
+
+PICS: This contains the images used for the model
+
+REC_PICS: This contains the images used for the recommendations
