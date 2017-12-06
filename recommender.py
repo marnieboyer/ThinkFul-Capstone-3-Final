@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[ ]:
+# In[1]:
 
 get_ipython().magic('matplotlib inline')
 import requests
@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 image_dir = "C:/Users/boyerm/_Capstone 3 Final/pics2"
 
 
-# In[ ]:
+# In[2]:
 
 style_df = pd.DataFrame()
 style_df = pd.DataFrame(columns = ['face_shape','hair_length','location','filename','score'])
@@ -54,8 +54,9 @@ def process_rec_pics():
                         shape_array.append(hair_length)
                         shape_array.append(sub_dir_file)
                         shape_array.append(face_file_name)  
-
-                        rand = random.randint(25,75)  # make a random score to start
+                        
+                        random.seed(filenum)  # this keeps the score the same each time I run it
+                        rand = random.randint(25,75)  # make a random score to start the rec. engine
                         shape_array.append(rand)
 
                         style_df.loc[filenum] = np.array(shape_array)
@@ -63,16 +64,20 @@ def process_rec_pics():
                         filenum += 1
    # return(style_df)
     return(filenum)
-image_dir = "C:/Users/boyerm/_Capstone 3 Final/rec_pics/oval"   
 process_rec_pics()
 
 
-# In[ ]:
+# In[3]:
 
-def run_recommender(test_shape):
+style_df
+
+
+# In[4]:
+
+def run_recommender():
     name = input("What is your name? ")
     print("Hello, %s." % name)
-    test_shape = test_shape
+    test_shape = ['heart']
     face_shape_input = test_shape[0] #input("What is your face shape?")
     if face_shape_input not in ['heart','long','oval','round','square']:
         face_shape_input = input("What is your face shape?")
@@ -94,7 +99,7 @@ def run_recommender(test_shape):
     recommended_df = recommended_df.head(r)
     
     plt.figure(figsize=(5 * n_col, 4 * n_row))
-    plt.subplots_adjust(bottom=0, left=.01, right=.99, top=.90, hspace=.35)
+    plt.subplots_adjust(bottom=0, left=.01, right=.99, top=.90, hspace=.35)    
     font = ImageFont.truetype("arial.ttf", 60)
     for p in range(0,r):
         idea = str(recommended_df.iloc[p]['location'] )
@@ -103,15 +108,19 @@ def run_recommender(test_shape):
         plt.subplot(n_row, n_col, p+1 )
         draw = ImageDraw.Draw(img)
         plt.title(p+1,fontsize = 40)
+        plt.xlabel(recommended_df.iloc[p]['score'],fontsize = 20)
         #nn = p +1
-        #draw.text((10,10) ,str(nn), fill=None, font=font, anchor=None)
+        #draw.text((10,10) ,str(recommended_df.iloc[p]['score']), fill='red', font=font, anchor=None)
+        #plt.axis('off')
+        plt.xticks([])
+        plt.yticks([])
         plt.imshow(img)
         img.close()
 
     plt.show()
     
-    fav = input("Which style is your favorite?")
-    yuck = input("Which file is your least favorite")
+    fav = input("Which style is your favorite? ")
+    yuck = input("Which file is your least favorite? ")
     # update scores based on fav/least fav
 
     for row in range(0,r):
@@ -119,8 +128,24 @@ def run_recommender(test_shape):
         srow = style_df.index[style_df['filename'] == fn].tolist()
         srow = srow[0]
         #print('Srow %s' %srow)
+        row += 1
         if str(row) == str(fav):
             style_df.at[srow,'score'] =  style_df.at[srow,'score'] + 5
         if str(row) == str(yuck):
             style_df.at[srow,'score'] =  style_df.at[srow,'score'] - 5
+
+
+# In[7]:
+
+run_recommender()
+
+
+# In[8]:
+
+run_recommender()
+
+
+# In[ ]:
+
+
 
