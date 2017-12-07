@@ -74,11 +74,10 @@ style_df
 
 # In[4]:
 
-def run_recommender():
+def run_recommender(test_shape):
     name = input("What is your name? ")
     print("Hello, %s." % name)
-    test_shape = ['heart']
-    face_shape_input = test_shape[0] #input("What is your face shape?")
+    face_shape_input = test_shape
     if face_shape_input not in ['heart','long','oval','round','square']:
         face_shape_input = input("What is your face shape?")
     updo_input = input("Would you like to see up-dos? (Y/N)")
@@ -91,6 +90,7 @@ def run_recommender():
     else: hair_length_input = 'Updo'
     
     print(hair_length_input)
+    print(face_shape_input)
     r = 6
     
     n_col = 3
@@ -135,17 +135,7 @@ def run_recommender():
             style_df.at[srow,'score'] =  style_df.at[srow,'score'] - 5
 
 
-# In[7]:
 
-run_recommender()
-
-
-# In[8]:
-
-run_recommender()
-
-
-# In[ ]:
 
 
 
